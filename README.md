@@ -36,7 +36,8 @@ iLoca brings all of that scattered research into one place. Instead of manually 
 
 - **Language:** Swift
 - **Platform:** macOS (built in Xcode)
-- **AI/ML:** Apple Foundation Models (on-device), custom ML preprocessing pipeline for dataset cleaning/structuring
+- **AI:** Apple Foundation Models (on-device),
+- **ML:** ML preprocessing pipeline (Azure, PowerBI, Python) for dataset cleaning/structuring
 - **UI:** SwiftUI
 
 ## Datasets Used
