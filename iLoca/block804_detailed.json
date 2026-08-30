@@ -1,0 +1,1733 @@
+{
+  "block_id": 804,
+  "clue_small_area": "Southbank",
+  "year": 2024,
+  "total_establishments": 239,
+  "active_establishments": 209,
+  "vacant_count": 30,
+  "vacancy_rate_pct": 12.6,
+  "industry_breakdown": {
+    "Clothing Retailing": 47,
+    "Footwear Retailing": 18,
+    "Womens Clothing Retailing": 17,
+    "Cafes and Restaurants": 14,
+    "Takeaway Food Services": 14,
+    "Other Personal Accessory Retailing": 12,
+    "Mens Clothing Retailing": 11,
+    "Furniture Retailing": 8,
+    "Watch and Jewellery Retailing": 5,
+    "Non-Residential Property Operators": 4,
+    "Houseware Retailing": 4,
+    "Parking Services": 3,
+    "Manchester and Other Textile Goods Retailing": 3,
+    "Womens Footwear Retailing": 3,
+    "Other Administrative Services n.e.c.": 3,
+    "Pubs, Taverns and Bars": 3,
+    "Jewellery and Watch Wholesaling": 2,
+    "Stationery Goods Retailing": 2,
+    "Childrens Clothing Retailing": 2,
+    "Other Electrical and Electronic Goods Retailing": 2,
+    "Other Specialised Food Retailing": 2,
+    "Accommodation": 2,
+    "Performing Arts Venue Operation": 2,
+    "Other Allied Health Services": 2,
+    "Real Estate Services": 2,
+    "Convenience Store": 1,
+    "Commercial Vehicle Wholesaling": 1,
+    "Other Auxiliary Finance and Investment Services": 1,
+    "Labour Supply Services": 1,
+    "Sport and Camping Equipment Retailing": 1,
+    "Mens Footwear Retailing": 1,
+    "Clothing and Footwear Repair": 1,
+    "Electrical, Electronic and Gas Appliance Retailing": 1,
+    "Cigarette and Tobacco Product Manufacturing": 1,
+    "Accounting Services": 1,
+    "Business and Professional Association Services": 1,
+    "Museum Operation": 1,
+    "Pharmaceutical, Cosmetic and Toiletry Goods Retailing": 1,
+    "Other Store-Based Retailing n.e.c.": 1,
+    "Hairdressing and Beauty Services": 1,
+    "Liquor Retailing": 1,
+    "Child Care Services": 1,
+    "Management Advice and Other Consulting Services": 1,
+    "Labour Association Services": 1,
+    "Water Freight Transport": 1,
+    "Computer System Design and Related Services": 1,
+    "Electricity Distribution": 1
+  },
+  "businesses": [
+    {
+      "name": "Wilson Parking - South Wharf",
+      "address": "Carpark 15 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Parking Services",
+      "industry_code": "9533",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Bed Bath N' Table",
+      "address": "Shop TB98 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Manchester and Other Textile Goods Retailing",
+      "industry_code": "4214",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "SHOWTIME EVENT CENTRE PTY LTD",
+      "address": "Shop FG01 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Non-Residential Property Operators",
+      "industry_code": "6712",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "The Academy Brand",
+      "address": "Shop TB74 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Just Jeans",
+      "address": "Shop TB65 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Common Man",
+      "address": "Shop TG01 39 Dukes Walk SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Vans",
+      "address": "Shop TG16B 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Mulberry",
+      "address": "Shop TB30 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Aerial Events",
+      "address": "Shop VG01 17 Dukes Walk SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Non-Residential Property Operators",
+      "industry_code": "6712",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Lacoste",
+      "address": "Shop TB38 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Cotton On",
+      "address": "Shop TB87 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Matchbox",
+      "address": "Shop TB97 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Houseware Retailing",
+      "industry_code": "4213",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "R M Williams",
+      "address": "Shop TB119A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Champion",
+      "address": "Shop TB66 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Armani Outlet",
+      "address": "Shop TB18 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Calvin Klein",
+      "address": "Shop TB16 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Michael Kors",
+      "address": "Shop TB22 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Rip Curl",
+      "address": "Shop TB47 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Provincial",
+      "address": "Shop T1.15 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Houseware Retailing",
+      "industry_code": "4213",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "General Pants Co",
+      "address": "Shop TB49 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Pandora",
+      "address": "Shop TB10A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Jewellery and Watch Wholesaling",
+      "industry_code": "3732",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Mac Pac",
+      "address": "Shop TB134 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Typo",
+      "address": "Shop TB09 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Stationery Goods Retailing",
+      "industry_code": "4272",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Cotton On Kids",
+      "address": "Shop TB07 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Childrens Clothing Retailing",
+      "industry_code": "4256",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Marcs",
+      "address": "Shop TB21 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Pera",
+      "address": "Shop TB04 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Howards Storage World",
+      "address": "Shop T1.10 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Paperkites",
+      "address": "Shop TB88 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Levis",
+      "address": "Shop TB59 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Zohar Jewellery",
+      "address": "Kiosk 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Watch and Jewellery Retailing",
+      "industry_code": "4253",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Gant",
+      "address": "Shop TB126 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Forever New",
+      "address": "Shop TB76 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Barutti",
+      "address": "Shop TB118 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Saba",
+      "address": "Shop TB58 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Helly Hansen",
+      "address": "Shop TB133 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Snooze",
+      "address": "Shop T1.20 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Adventure Megastore",
+      "address": "Shop TB115 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Van Huesen",
+      "address": "Shop TB56 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Platypus",
+      "address": "Shop TB104 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Bras N Things",
+      "address": "Shop TB80 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sushi Jiro Express DFO",
+      "address": "Kiosk K7 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Portmans",
+      "address": "Shop TB72 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Authentic Factory Outlet (Converse)",
+      "address": "Shop TG24 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Coach",
+      "address": "Shop TB28 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "The Custom Sofa Centre",
+      "address": "Shop T1.17 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Thailander",
+      "address": "Shop TB105B 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Ugg Outlet",
+      "address": "Shop TB107 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "JB Hi-Fi",
+      "address": "Shop T1.12 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Electrical and Electronic Goods Retailing",
+      "industry_code": "4229",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Swatch & Tissot",
+      "address": "Shop TB94 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Watch and Jewellery Retailing",
+      "industry_code": "4253",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Roll'D",
+      "address": "Shop F1 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Supre",
+      "address": "Shop TB68 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Soul Origin",
+      "address": "Shop F5 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Ovi Mobile",
+      "address": "Kiosk K4, 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Electrical and Electronic Goods Retailing",
+      "industry_code": "4229",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Victoria's Secret",
+      "address": "Shop TB129 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Lindt",
+      "address": "Shop TB17A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Specialised Food Retailing",
+      "industry_code": "4129",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Koala & Tree",
+      "address": "Shop 1.05 & Shop 1.07 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sneakerboy",
+      "address": "Shop TB20 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Guess",
+      "address": "Shop TB53 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Johnny Bigg",
+      "address": "Shop TB69 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Famous Footwear",
+      "address": "Shop TB75 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Footwear Retailing",
+      "industry_code": "4258",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Russell Athletic",
+      "address": "Shop TB117 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "T2",
+      "address": "Shop TB03 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Specialised Food Retailing",
+      "industry_code": "4129",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Valley Girl",
+      "address": "Shop TB117A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sass & Bide",
+      "address": "Shop TB14 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Jacqui E",
+      "address": "Shop TB123 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Melbourne Exhibition Centre",
+      "address": "Melbourne Exhibition Centre 2 Clarendon Street SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Administrative Services n.e.c.",
+      "industry_code": "7299",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Pan Pacific Melbourne",
+      "address": "Pan Pacific Melbourne 2 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Accommodation",
+      "industry_code": "4400",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Urban Hub",
+      "address": "FG06 - FG07 2 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Convenience Store",
+      "industry_code": "4111",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Dock 37 Bar & Kitchen",
+      "address": "Part 2 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sg Fleet",
+      "address": "Office 12-13, Level 7-8 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Commercial Vehicle Wholesaling",
+      "industry_code": "3502",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Vicconnect Alliance",
+      "address": "Part Office 15, Level 9 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Auxiliary Finance and Investment Services",
+      "industry_code": "6419",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Riva Ridge Pty Ltd",
+      "address": "Office 203, Level 2 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Administrative Services n.e.c.",
+      "industry_code": "7299",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "WHALES REGIONAL WORKFORCE PTY LTD",
+      "address": "Office 204 & 207 Level 2 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Labour Supply Services",
+      "industry_code": "7212",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Novotel Melbourne South Wharf",
+      "address": "Novotel Melbourne South Wharf Hotel 7 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Accommodation",
+      "industry_code": "4400",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Melbourne Convention And Exhibition Trust",
+      "address": "Melbourne Exhibition Centre Expansion 1 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Performing Arts Venue Operation",
+      "industry_code": "9003",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "BangPop",
+      "address": "35 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Cargo Hall",
+      "address": "39 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Non-Residential Property Operators",
+      "industry_code": "6712",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Furla",
+      "address": "Shop TB24 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Neverland",
+      "address": "Shop TB119 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Politix",
+      "address": "Shop TB53A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Genki Sushi",
+      "address": "Shop F2 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Daniel Hechter",
+      "address": "Shop TB52 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Puma",
+      "address": "Shop TG29, TG31 & TG32 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Windsor Smith",
+      "address": "Shop TB90 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Seed Heritage",
+      "address": "Shop TB121 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Saucony",
+      "address": "Shop TG14 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Miniso",
+      "address": "Shop TB91 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Houseware Retailing",
+      "industry_code": "4213",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Forcast",
+      "address": "Shop TB77 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "SUNGLASS HUT",
+      "address": "Shop TB12 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Freedom",
+      "address": "Shop T1.21 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Superdry Outlet",
+      "address": "Shop TB99 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Merrell",
+      "address": "Shop TB111 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Ecco",
+      "address": "Shop TB95 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sheridan Factory Outlet",
+      "address": "Shop TB102 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Manchester and Other Textile Goods Retailing",
+      "industry_code": "4214",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Oakley",
+      "address": "Shop TG15A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Dr Martens",
+      "address": "Shop TB57 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Industrie",
+      "address": "Shop TB55 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Bonds Outlet",
+      "address": "Shop TB101 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Spudbar (Dfo South Wharf)",
+      "address": "Kiosk K1 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "New Balance",
+      "address": "Shop TG16A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Nick Scali",
+      "address": "Shop TG36 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "2XU",
+      "address": "Shop TG19 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Sport and Camping Equipment Retailing",
+      "industry_code": "4241",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Subway",
+      "address": "Shop F3 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Strandbags",
+      "address": "Shop TB106 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Nike",
+      "address": "Shop TG21, TG23,TG25 & TG27 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "TIMLESS WATCHES",
+      "address": "Shop TB10 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Watch and Jewellery Retailing",
+      "industry_code": "4253",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Asics",
+      "address": "Shop TG16 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Novo",
+      "address": "Shop TB86 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Footwear Retailing",
+      "industry_code": "4258",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "South Wharf Jooce Lab",
+      "address": "Shop 5F, 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Florsheim",
+      "address": "Shop TB100A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Mimco",
+      "address": "Shop TB122 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "MJ Bale",
+      "address": "Shop TB46 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Aquila",
+      "address": "Shop TB64 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Footwear Retailing",
+      "industry_code": "4257",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sketchers",
+      "address": "Shop TB62 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Oroton",
+      "address": "Shop TB125 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Florentine Eyewear",
+      "address": "Shop TB96 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Dolce Gelateria",
+      "address": "Shop 5FA, 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Kate Spade",
+      "address": "Shop TB27 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Shoe Warehouse",
+      "address": "Shop TB89 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Max Mara",
+      "address": "Shop TB25 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Bohemian Wine Bar",
+      "address": "Shop TG03 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Masterfull Alterations",
+      "address": "Shop TG01A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing and Footwear Repair",
+      "industry_code": "9491",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Shaver Shop South Wharf DFO",
+      "address": "Shop TB100 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Electrical, Electronic and Gas Appliance Retailing",
+      "industry_code": "4221",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Dotti",
+      "address": "Shop TB70 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Smiggle",
+      "address": "Shop TG13 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Stationery Goods Retailing",
+      "industry_code": "4272",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Oporto",
+      "address": "Shop TB105A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "PALERMO",
+      "address": "Shop TB11 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "House",
+      "address": "Shop TB04A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Houseware Retailing",
+      "industry_code": "4213",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Philip Morris Limited",
+      "address": "Office 9-10, Level 4 & Part Office 10 Level 5 30, Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cigarette and Tobacco Product Manufacturing",
+      "industry_code": "1220",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "PPF Partners",
+      "address": "Office 209-210, 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Accounting Services",
+      "industry_code": "6932",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Australian Institute of Marine & Power Engineers",
+      "address": "Office 202, Level 2 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Business and Professional Association Services",
+      "industry_code": "9551",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "The Boatbuilders Yard",
+      "address": "23 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82437522,
+      "longitude": 144.953499517
+    },
+    {
+      "name": "Polly Woodside - Melbourne's Tall Ship Story",
+      "address": "Polly Woodside 21 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Museum Operation",
+      "industry_code": "8910",
+      "latitude": -37.82437522,
+      "longitude": 144.953499517
+    },
+    {
+      "name": "Wilson Parking",
+      "address": "112-168 Normanby Road SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Parking Services",
+      "industry_code": "9533",
+      "latitude": -37.82683539,
+      "longitude": 144.950226106
+    },
+    {
+      "name": "Showtime Event Centre Pty Ltd",
+      "address": "61 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Non-Residential Property Operators",
+      "industry_code": "6712",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Munich Brau Haus",
+      "address": "45 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Pubs, Taverns and Bars",
+      "industry_code": "4520",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Charlie Lovett",
+      "address": "43 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Meat Market South Wharf",
+      "address": "53 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "The General Assembly",
+      "address": "29 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "The AFL Store",
+      "address": "Shop TB93 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Volcom",
+      "address": "Shop TB110 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Mad Mex",
+      "address": "Shop F8 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Lovisa",
+      "address": "Shop TG15 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Personal Accessory Retailing",
+      "industry_code": "4259",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Planet Shoes",
+      "address": "Shop TB84 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Peter Jackson Outlet Store",
+      "address": "Shop TB54 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Hairhouse Warehouse",
+      "address": "Shop TB83 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Pharmaceutical, Cosmetic and Toiletry Goods Retailing",
+      "industry_code": "4271",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Tessie Pearl Hotel",
+      "address": "Shop TG05 31 Dukes Walk SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Pubs, Taverns and Bars",
+      "industry_code": "4520",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Adidas",
+      "address": "Shop TG17 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Mind Peace Massage",
+      "address": "Shop TG34 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Allied Health Services",
+      "industry_code": "8539",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Polo Ralph Lauren",
+      "address": "Shop TB40-TB42 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "GLOBAL LUGGAGE",
+      "address": "Shop TB08 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Store-Based Retailing n.e.c.",
+      "industry_code": "4279",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Camper",
+      "address": "Shop TB11A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "So Q Nails",
+      "address": "Shop TG35 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Hairdressing and Beauty Services",
+      "industry_code": "9511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Fossil",
+      "address": "Shop TB44 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Watch and Jewellery Retailing",
+      "industry_code": "4253",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Witchery",
+      "address": "Shop TB120 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Glassons",
+      "address": "Shop TB67 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Hurley",
+      "address": "Shop TB137 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Reiss",
+      "address": "Shop TB19 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Escape 2",
+      "address": "Shop TB116A 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Billabong",
+      "address": "Shop TB51 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Havianas",
+      "address": "Shop TB135 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "DFO Piccolo",
+      "address": "Shop F4 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Tommy Hilfiger",
+      "address": "Shop TB32 & 36 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Fila Outlet",
+      "address": "Shop TG30 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Cellarbrations At South Wharf",
+      "address": "Shop TG10 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Liquor Retailing",
+      "industry_code": "4123",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Decjuba",
+      "address": "Shop TB124 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Ollie's Place",
+      "address": "Shop TB05 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Childrens Clothing Retailing",
+      "industry_code": "4256",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Kathmandu",
+      "address": "Shop TB116 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Watch Station",
+      "address": "Shop TB48 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Watch and Jewellery Retailing",
+      "industry_code": "4253",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Roadhouse",
+      "address": "Shop TB92 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Studio Coffee",
+      "address": "Shop F6 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Jay Jay's",
+      "address": "Shop TB85 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Timberland",
+      "address": "Shop TG12 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Focus On Furniture",
+      "address": "Shop TG37 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "The North Face",
+      "address": "Shop TB131 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Connor",
+      "address": "Shop TB79 & TB 81 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Michael Hill",
+      "address": "Shop TB23 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Jewellery and Watch Wholesaling",
+      "industry_code": "3732",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Great Energy Massage",
+      "address": "Shop TG11 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Allied Health Services",
+      "industry_code": "8539",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "DFO South Wharf",
+      "address": "Part Level 1 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Real Estate Services",
+      "industry_code": "6720",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Tarocash",
+      "address": "Shop TB73 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "OXFORD",
+      "address": "Shop TB06 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Adairs",
+      "address": "Shop T1.09 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Manchester and Other Textile Goods Retailing",
+      "industry_code": "4214",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Boss",
+      "address": "Shop TB127 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "YD",
+      "address": "Shop TB63 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Mens Clothing Retailing",
+      "industry_code": "4254",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Espresso Room",
+      "address": "Shop F10 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Wild Rhino",
+      "address": "Shop TB136 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Melbourne Cellar Door",
+      "address": "Shop TG08 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Jumbo Early Education",
+      "address": "Shop T1.01 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Child Care Services",
+      "industry_code": "8710",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Peter Alexander",
+      "address": "Shop TB78 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "FORTY WINKS",
+      "address": "Shop T1.22 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Furniture Retailing",
+      "industry_code": "4211",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Jo Mercer",
+      "address": "Shop TB82 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Footwear Retailing",
+      "industry_code": "4258",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Factorie",
+      "address": "Shop TB02 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Clothing Retailing",
+      "industry_code": "4251",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Taiwan House",
+      "address": "Shop F11 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Lorna Jane",
+      "address": "Shop TG22 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Womens Clothing Retailing",
+      "industry_code": "4255",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Boost Juice",
+      "address": "Kiosk 20, Ground 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Rice Workshop",
+      "address": "Shop TB105C 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Takeaway Food Services",
+      "industry_code": "4512",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Wilsons Parking",
+      "address": "Carpark Melbourne Exhibition Centre 2 Clarendon Street SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Parking Services",
+      "industry_code": "9533",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Melbourne Convention Centre",
+      "address": "Melbourne Convention Centre 1 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Performing Arts Venue Operation",
+      "industry_code": "9003",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Cafe Orr",
+      "address": "Part 2 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Melbourne Public",
+      "address": "11-15 Dukes Walk SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Pubs, Taverns and Bars",
+      "industry_code": "4520",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Urban Ugg Co",
+      "address": "FG05 -FG06A 2 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Footwear Retailing",
+      "industry_code": "4252",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Database Consultants Australia",
+      "address": "Part Office 10 Level 5  & Office 11, Level 6 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Management Advice and Other Consulting Services",
+      "industry_code": "6962",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "CBRE (V) Pty Limited",
+      "address": "Office Level 2 Centre Management 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Real Estate Services",
+      "industry_code": "6720",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "AUSTRALIAN UNITED RETAILERS LIMITED",
+      "address": "Part Office 15, Level 9 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Labour Association Services",
+      "industry_code": "9552",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "ANL Container Line Pty Ltd",
+      "address": "Office 16-18, Level 10-12 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Water Freight Transport",
+      "industry_code": "4810",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Sentius",
+      "address": "Office 14, Level 8 30 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Computer System Design and Related Services",
+      "industry_code": "7000",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Hospitality One Pty Ltd",
+      "address": "Office 201 & 205 Level 2 20 Convention Centre Place SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Other Administrative Services n.e.c.",
+      "industry_code": "7299",
+      "latitude": -37.82539976,
+      "longitude": 144.952378154
+    },
+    {
+      "name": "Plus 5",
+      "address": "37 South Wharf Promenade SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Cafes and Restaurants",
+      "industry_code": "4511",
+      "latitude": -37.82409302,
+      "longitude": 144.95033362
+    },
+    {
+      "name": "Electricity Substation",
+      "address": "170 Normanby Road SOUTH WHARF VIC 3006",
+      "industry_anzsic4": "Electricity Distribution",
+      "industry_code": "2630",
+      "latitude": -37.82728585,
+      "longitude": 144.950920713
+    }
+  ],
+  "pedestrian_data": "Not available - no sensor within this block"
+}

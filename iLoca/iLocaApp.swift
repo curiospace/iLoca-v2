@@ -25,7 +25,7 @@ struct iLocaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootScrollContainer()
         }
         .modelContainer(sharedModelContainer)
     }
