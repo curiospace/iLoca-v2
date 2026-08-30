@@ -68,7 +68,7 @@ No API keys or external configuration needed — everything runs locally.
 
 ## Team
 
-Built with ☕ by **DuoNode**:
+Built by **DuoNode**:
 - Thao Lai
 - Afrah Khan
 
