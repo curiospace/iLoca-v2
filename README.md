@@ -10,9 +10,9 @@ Built by **Team DuoNode** (Thao Lai & Afrah Khan) for the **Mobile AI Hackathon,
 
 ## The Problem
 
-Meet Maya. She's dreaming of opening her first café, and like most first-time founders, she quickly finds herself buried in scattered browser tabs — property listings, competitor maps, footfall data, demographic reports, lease terms — trying to manually compare suburbs with no single source of truth.
+Meet Maya. She's dreaming of opening her first café, and like most first-time founders, she's buried in scattered browser tabs: property listings, competitor maps, footfall data, lease terms, trying to manually compare suburbs with no single source of truth.
 
-It's not just inefficient. According to the ABS (Retail Trade Australia, June 2025), **72% of founders report that the early-stage setup process directly damaged their mental health.**
+The stakes are real. **1 in 4 Australian businesses** don't survive their first year, and half close within three. But founders who start with the right structure and resources are **61%** likely to survive **three years**. Access to the right tools early on decides the success of the business.
 
 ## What iLoca Does
 
@@ -38,6 +38,28 @@ iLoca brings all of that scattered research into one place. Instead of manually 
 - **Platform:** macOS (built in Xcode)
 - **AI/ML:** Apple Foundation Models (on-device), custom ML preprocessing pipeline for dataset cleaning/structuring
 - **UI:** SwiftUI
+
+## Datasets Used
+
+1. **Blocks for Census of Land Use and Employment (CLUE)** — spatial polygons, the join key for everything else
+   https://data.melbourne.vic.gov.au/explore/dataset/blocks-for-census-of-land-use-and-employment-clue/
+
+2. **Business establishments per block by CLUE industry** — block-level competitor counts by ANZSIC
+   https://data.melbourne.vic.gov.au/explore/dataset/business-establishments-per-block-by-clue-industry/
+
+3. **Business establishments with address and industry classification** — point-level, for plotting actual dots on the map
+   https://data.melbourne.vic.gov.au/explore/dataset/business-establishments-with-address-and-industry-classification/
+
+4. **Pedestrian Counting System** (sensor locations + counts)
+   https://www.pedestrian.melbourne.vic.gov.au/ (also on the main portal — search "pedestrian counting system" at data.melbourne.vic.gov.au)
+
+### Future Datasets
+
+5. **Off-street car parks with capacity and type**
+   https://data.melbourne.vic.gov.au/explore/dataset/off-street-car-parks-with-capacity-and-type/
+
+6. **On-street parking bays + sensors** — live occupancy, for a "right now" parking signal rather than static capacity
+   https://data.melbourne.vic.gov.au/explore/dataset/on-street-parking-bay-sensors/
 
 ## Getting Started
 
