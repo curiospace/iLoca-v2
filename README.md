@@ -128,10 +128,6 @@ The Guide page also includes four official business guides as PDFs (`iLoca/comdo
   - NaturalLanguage `NLEmbedding` for guide search
 - **Data**: City of Melbourne Open Data, via the Opendatasoft Explore API v2.1
 
-## Team
+## Author
 
-Built by **DuoNode**:
-- Thao Lai
-- Afrah Khan
-
-Made for the Mobile AI Hackathon, August 2026: RMIT University × Apple Foundation Program.
+Afrah Khan
