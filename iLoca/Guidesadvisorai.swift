@@ -7,119 +7,76 @@
 
 
 import Foundation
-import FoundationModels
 
-// Note: ChatMessage is already defined in LocationAdvisorAI.swift and is
-// reused here — do not redeclare it in this file.
-
-/// The AI "brain" for the Guides page. Unlike LocationAdvisorAI (which primes
-/// one session with a fixed block's data), this retrieves fresh excerpts from
-/// GuidesRetrievalStore for every question, since a question might touch any
-/// combination of the four guides.
+/// The AI for the Guides page. Unlike the Map advisor (grounded once per block),
+/// this retrieves fresh excerpts from GuidesRetrievalStore for every question,
+/// since a question might touch any combination of the four guides.
 @Observable
-class GuidesAdvisorAI {
-    var messages: [ChatMessage] = []
-    var isThinking: Bool = false
-
-    var isAvailable: Bool = false
-    var availabilityStatus: String = "Checking..."
-
+final class GuidesAdvisorAI {
     let store = GuidesRetrievalStore()
-    private var session: LanguageModelSession?
+    static let instructions = """
+        You are Loca, a guide assistant helping a small business owner in Melbourne understand \
+        official government guidance on starting, setting up, budgeting for and growing a business, \
+        using four official guides (Plan, Setup, Budget, Grow).
 
-    func checkAvailability() {
-        switch SystemLanguageModel.default.availability {
-        case .available:
-            isAvailable = true
-            availabilityStatus = "Ready"
-        case .unavailable(.deviceNotEligible):
-            isAvailable = false
-            availabilityStatus = "This Mac doesn't support Apple Intelligence."
-        case .unavailable(.appleIntelligenceNotEnabled):
-            isAvailable = false
-            availabilityStatus = "Turn on Apple Intelligence in System Settings to use this."
-        case .unavailable(.modelNotReady):
-            isAvailable = false
-            availabilityStatus = "The on-device model is still downloading. Try again shortly."
-        case .unavailable(let other):
-            isAvailable = false
-            availabilityStatus = "Unavailable: \(other)"
-        @unknown default:
-            isAvailable = false
-            availabilityStatus = "Unavailable for an unknown reason."
-        }
-    }
-
-    /// Loads/indexes the PDFs (once) and starts the session. Call from the
-    /// Guides page's .task so it's ready before the user asks anything.
-    func prepare() async {
-        if !store.isReady {
-            await store.loadAndIndex()
-        }
-        if session == nil {
-            startSession()
-        }
-    }
-
-    private func startSession() {
-        let instructions = """
-        You are a guide assistant helping a small business owner in Melbourne understand \
-        official government guidance on starting, setting up, budgeting for and growing a \
-        business. Before each question you will be given real excerpts drawn from four \
-        official guides — Plan, Setup, Budget and Grow — retrieved because they're relevant \
-        to what was asked. Excerpts may come from one guide or span several.
-
-        Rules you must follow:
-        - Answer only using the excerpts provided with each question. Never invent facts, \
-        figures, thresholds, fees or requirements that aren't present in the excerpts.
-        - If the excerpts don't cover what was asked, say so plainly and suggest which guide \
-        (Plan, Setup, Budget or Grow) is most likely to help, rather than guessing.
-        - When it's useful, mention which guide(s) the answer draws from, e.g. "From the \
-        Budget guide...".
-        - Vary your phrasing naturally — don't repeat the same sentence structure for every \
-        answer.
-        - Keep answers concise: 2-5 sentences, plain conversational language, no bullet lists \
-        unless the question specifically calls for a checklist.
+        Rules:
+        - Answer only from the guide text provided. Never invent fees, thresholds, deadlines or \
+        requirements that aren't in it.
+        - If the guides don't cover the question, say so and suggest which guide (Plan, Setup, \
+        Budget or Grow) is most likely to help.
+        - Mention which guide(s) the answer draws from, e.g. "From the Budget guide…".
+        - Rules and fees change. For anything legal or regulatory, suggest confirming with the \
+        relevant authority (e.g. City of Melbourne, ATO, Business Victoria).
         """
-        session = LanguageModelSession(instructions: instructions)
+
+    let session = ChatSession(
+        system: GuidesAdvisorAI.instructions,
+        provenance: AnswerProvenance(sources: GuideBucket.allCases.map(\.documentTitle))
+    )
+
+    var messages: [ChatMessage] { session.messages }
+
+    func prepare() async {
+        if !store.isReady { await store.loadAndIndex() }
+        // Claude gets all four guides in full (cached across questions); the on-device
+        // model only has room for retrieved excerpts, sent with each question.
+        let full = GuideBucket.allCases.compactMap { bucket in
+            store.fullText[bucket].map { "=== \(bucket.title.uppercased()) GUIDE: \(bucket.documentTitle) ===\n\($0)" }
+        }.joined(separator: "\n\n")
+        session.updateGrounding(
+            system: Self.instructions + "\n\nTHE FOUR GUIDES (full text):\n\n" + full,
+            compactSystem: Self.instructions,
+            provenance: AnswerProvenance(sources: GuideBucket.allCases.map(\.documentTitle))
+        )
     }
 
-    func ask(_ question: String) async {
-        if session == nil {
-            await prepare()
-        }
-        guard let session else {
-            messages.append(ChatMessage(isUser: true, text: question))
-            messages.append(ChatMessage(isUser: false, text: "The guide library hasn't finished loading yet — try again in a moment."))
+    func ask(_ question: String) {
+        if case .claude = LocaAI.shared.provider {
+            session.ask(question, provenance: AnswerProvenance(
+                sources: GuideBucket.allCases.map(\.documentTitle),
+                notes: ["Loca read all four official guides in full and was told to answer only from them."]
+            ))
             return
         }
 
-        messages.append(ChatMessage(isUser: true, text: question))
-        isThinking = true
-        defer { isThinking = false }
-
         let matches = store.topMatches(for: question, k: 6)
-        let excerptText: String
-        if matches.isEmpty {
-            excerptText = "No excerpts were retrieved — the guide library may still be indexing, or nothing relevant was found."
-        } else {
-            excerptText = matches
-                .map { "[\($0.bucket.title) guide]\n\($0.text)" }
-                .joined(separator: "\n\n---\n\n")
-        }
-
+        let excerpts = matches.isEmpty
+            ? "No excerpts were retrieved. The guide library may still be indexing."
+            : matches.map { "[\($0.bucket.title) guide]\n\($0.text)" }.joined(separator: "\n\n---\n\n")
         let prompt = """
         Relevant guide excerpts:
-        \(excerptText)
+        \(excerpts)
 
         Question: \(question)
         """
-
-        do {
-            let response = try await session.respond(to: prompt)
-            messages.append(ChatMessage(isUser: false, text: response.content))
-        } catch {
-            messages.append(ChatMessage(isUser: false, text: "Sorry, something went wrong answering that: \(error.localizedDescription)"))
-        }
+        let guides = Array(Set(matches.map(\.bucket))).sorted { $0.rawValue < $1.rawValue }
+        let provenance = AnswerProvenance(
+            sources: guides.isEmpty ? ["No guide excerpts found"] : guides.map(\.documentTitle),
+            notes: [
+                "Found the \(matches.count) most relevant passages across all four guides using on-device sentence embeddings (NLEmbedding).",
+                "Loca was told to answer only from those passages."
+            ]
+        )
+        session.ask(question, prompt: prompt, provenance: provenance)
     }
 }

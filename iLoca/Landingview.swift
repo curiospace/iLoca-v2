@@ -2,18 +2,11 @@ import SwiftUI
 
 struct LandingView: View {
 
-    /// Which nav item is currently "active" -- drives the mint-green highlight.
-    /// Owned by RootScrollContainer so it can stay in sync with actual scroll position.
-    @Binding var activeTab: String
-
     /// Fired when the mascot is tapped -- wired up to open the AI chat panel.
     var onMascotTap: (() -> Void)? = nil
 
-    /// Fired when a nav item is tapped, passing its label -- RootScrollContainer
-    /// uses this to scroll to the matching page (where one exists yet).
-    var onNavTap: ((String) -> Void)? = nil
-
-    private let navItems = ["How It Works", "About", "Home", "Map", "Guide"]
+    /// Fired when a nav item is tapped -- RootScrollContainer scrolls to that page.
+    var onNavTap: ((AppPage) -> Void)? = nil
 
     var body: some View {
         ZStack {
@@ -37,29 +30,8 @@ struct LandingView: View {
     // MARK: - Nav bar
 
     private var navBar: some View {
-        HStack(spacing: 20) {
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(AppColor.tealAccent)
-                    .frame(width: 9, height: 9)
-                Text("iLoca")
-                    .font(AppFont.nav(19, weight: .bold))
-                    .foregroundStyle(.white)
-            }
-
-            Spacer()
-
-            HStack(spacing: 26) {
-                ForEach(navItems, id: \.self) { item in
-                    Text(item)
-                        .font(AppFont.nav(14, weight: item == activeTab ? .semibold : .regular))
-                        .foregroundStyle(item == activeTab ? AppColor.mintLight : AppColor.mutedGrey)
-                        .contentShape(Rectangle())
-                        .onTapGesture { onNavTap?(item) }
-                }
-            }
-        }
-        .padding(.top, 22)
+        TopNavBar(activePage: .home, onNavTap: onNavTap)
+            .padding(.top, 22)
     }
 
     // MARK: - Headline
@@ -99,6 +71,6 @@ struct LandingView: View {
 }
 
 #Preview {
-    LandingView(activeTab: .constant("Home"))
+    LandingView()
         .frame(width: 1400, height: 900)
 }

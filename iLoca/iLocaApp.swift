@@ -6,27 +6,20 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct iLocaApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    @AppStorage(AppearanceMode.storageKey) private var appearance = AppearanceMode.defaultMode.rawValue
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private var mode: AppearanceMode { AppearanceMode(rawValue: appearance) ?? .defaultMode }
 
     var body: some Scene {
         WindowGroup {
             RootScrollContainer()
+                .frame(minWidth: 1280, minHeight: 800)
+                .preferredColorScheme(mode.colorScheme)
+                .onAppear { mode.apply() }
+                .onChange(of: appearance) { mode.apply() }
         }
-        .modelContainer(sharedModelContainer)
     }
 }

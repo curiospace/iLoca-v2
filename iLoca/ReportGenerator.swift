@@ -7,39 +7,32 @@
 
 
 import Foundation
-import FoundationModels
 
 enum ReportGenerator {
-    /// Generates the report's short narrative analysis using a fresh,
-    /// dedicated on-device session — separate from the block chat session, so
-    /// the report's content stays consistent regardless of what's been asked
-    /// in chat, and so report generation can't be derailed by prior chat turns.
-    static func generateNarrative(dataSummary: String, filtersSummary: String) async -> String {
-        let instructions = """
-        You are writing a short, formal location-analysis section for a printed report, for a \
-        business owner considering a Melbourne city block. Use ONLY the real data provided \
-        below — never invent statistics, business names, or figures not present in the data. \
-        Write 2-3 short paragraphs in a clear, professional report tone (not conversational \
-        chat style, no greetings, no "I"). If a filter meaningfully narrows relevance (e.g. a \
-        specific business type or footfall level), factor that into the analysis. If something \
-        relevant isn't in the data, say so plainly rather than guessing.
-        """
+    /// Generates the report's narrative with a fresh, dedicated request (separate
+    /// from the chat), so the report stays consistent whatever was asked in chat.
+    static func generateNarrative(blockContext: String, compactContext: String, filtersSummary: String) async -> (text: String, provider: String) {
+        let ai = LocaAI.shared
+        func system(_ context: String) -> String { """
+        You are writing a short, formal location-analysis section for a printed report for a \
+        business owner considering a City of Melbourne block. Use ONLY the data provided. Write \
+        2-3 short paragraphs in a professional report tone: no greetings, no "I", no markdown. \
+        Explain what drives the Opportunity Score using its factor breakdown, factor in the user's \
+        filters (business type, time window, competition), and state the confidence level and its \
+        main limitation. If something relevant isn't in the data, say so plainly.
 
+        \(context)
+        """ }
         do {
-            let session = LanguageModelSession(instructions: instructions)
-            let prompt = """
-            Block data:
-            \(dataSummary)
-
-            Filters applied by the user when this report was generated:
-            \(filtersSummary)
-
-            Write the analysis now.
-            """
-            let response = try await session.respond(to: prompt)
-            return response.content
+            let text = try await ai.complete(
+                system: system(blockContext),
+                compactSystem: system(compactContext),
+                prompt: "Filters applied by the user when this report was generated:\n\(filtersSummary)\n\nWrite the analysis now.",
+                effort: "medium"
+            )
+            return (text.trimmingCharacters(in: .whitespacesAndNewlines), ai.provider.displayName)
         } catch {
-            return "On-device AI analysis wasn't available when this report was generated (\(error.localizedDescription)). The statistics below are still accurate and drawn from real data."
+            return ("AI analysis wasn't available when this report was generated (\(error.localizedDescription)). The figures below are still accurate and drawn from City of Melbourne open data.", "None")
         }
     }
 }

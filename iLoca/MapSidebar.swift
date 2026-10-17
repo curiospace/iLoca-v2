@@ -1,56 +1,29 @@
 import SwiftUI
 
 struct MapSidebar: View {
-    let allBlocks: [BlockSummary]
-    @Binding var selectedBlockId: Int?
+    let store: CityDataStore
     @Bindable var filters: MapFilterState
 
-    /// Block 25 and 804 are always pinned at the top and are the only clickable
-    /// rows (they're the only blocks with full detailed business data). The next
-    /// 8 are picked at runtime by highest active-business count, so this list
-    /// stays accurate without hardcoding specific block IDs.
-    private var pinnedBlocks: [BlockSummary] {
-        allBlocks.filter { $0.blockId == 25 || $0.blockId == 804 }
-            .sorted { $0.blockId == 25 && $1.blockId != 25 }
-    }
-
-    private var extraBlocks: [BlockSummary] {
-        allBlocks
-            .filter { $0.blockId != 25 && $0.blockId != 804 }
-            .sorted { $0.activeEstablishments > $1.activeEstablishments }
-            .prefix(8)
-            .map { $0 }
-    }
-
-    @State private var expanded: Set<String> = ["business", "location", "vacancy"]
+    @State private var blockSearch = ""
+    @State private var expanded: Set<String> = ["business", "location", "footfall", "competition"]
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
+                resultsHeader
+
+                divider
+
                 section("BUSINESS TYPE", key: "business") {
-                    HStack(spacing: 10) {
-                        ForEach(BusinessCategory.allCases) { category in
-                            categoryButton(category)
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 10) {
+                            ForEach(BusinessCategory.allCases) { category in
+                                categoryButton(category)
+                            }
                         }
-                    }
-                }
-
-                divider
-
-                section("LOCATION", key: "location") {
-                    VStack(alignment: .leading, spacing: 14) {
-                        labeledField("Region", value: "Greater Melbourne")
-                        labeledField("City / LGA", value: "Melbourne")
-                        blockPicker
-                    }
-                }
-
-                divider
-
-                section("VACANCY", key: "vacancy") {
-                    VStack(spacing: 14) {
-                        overlayToggle("Show Vacancy on Map", isOn: $filters.showVacancyZones)
-                        Text("Dot size scales with each block's real vacancy rate — bigger dot, more empty shopfronts.")
+                        Text(filters.businessCategory == nil
+                             ? "Pick what you plan to open. Competition filters and rival lists will use it."
+                             : "Competition is measured against other \(filters.businessCategory!.rawValue) businesses.")
                             .font(AppFont.nav(11))
                             .foregroundStyle(AppColor.mutedGrey)
                     }
@@ -58,19 +31,40 @@ struct MapSidebar: View {
 
                 divider
 
+                section("LOCATION", key: "location") {
+                    VStack(alignment: .leading, spacing: 14) {
+                        areaPicker
+                        blockPicker
+                    }
+                }
+
+                divider
+
                 section("FOOTFALL", key: "footfall") {
                     VStack(alignment: .leading, spacing: 16) {
-                        pillGroupLabel("Level")
-                        pillWrap(FootfallLevel.allCases, selection: Binding(
-                            get: { filters.footfallLevel },
-                            set: { filters.footfallLevel = $0 }
-                        ))
-
                         pillGroupLabel("Time of Day")
-                        multiPillWrap(TimeOfDay.allCases, selection: $filters.timesOfDay)
+                        FlowLayout(spacing: 8) {
+                            ForEach(TimeOfDay.allCases) { time in
+                                pill(time.rawValue, isOn: filters.timesOfDay.contains(time)) {
+                                    if filters.timesOfDay.contains(time) { filters.timesOfDay.remove(time) } else { filters.timesOfDay.insert(time) }
+                                }
+                                .help(time.label)
+                            }
+                        }
 
                         pillGroupLabel("Day Type")
-                        multiPillWrap(DayType.allCases, selection: $filters.dayTypes)
+                        FlowLayout(spacing: 8) {
+                            ForEach(DayType.allCases) { day in
+                                pill(day.rawValue, isOn: filters.dayTypes.contains(day)) {
+                                    if filters.dayTypes.contains(day) { filters.dayTypes.remove(day) } else { filters.dayTypes.insert(day) }
+                                }
+                            }
+                        }
+
+                        pillGroupLabel("Level")
+                        pillWrap(FootfallLevel.allCases, selection: $filters.footfallLevel)
+
+                        note("Uses real pedestrian sensor averages for \(filters.timeWindowLabel). Levels are quarters of measured blocks, and blocks without a sensor are hidden when a level is chosen.")
                     }
                 }
 
@@ -79,10 +73,7 @@ struct MapSidebar: View {
                 section("COMPETITION", key: "competition") {
                     VStack(alignment: .leading, spacing: 16) {
                         pillGroupLabel("Competitor Type")
-                        pillWrap(CompetitorType.allCases, selection: Binding(
-                            get: { filters.competitorType },
-                            set: { filters.competitorType = $0 }
-                        ))
+                        pillWrap(CompetitorType.allCases, selection: $filters.competitorType)
 
                         pillGroupLabel("Search Radius")
                         FlowLayout(spacing: 8) {
@@ -94,10 +85,9 @@ struct MapSidebar: View {
                         }
 
                         pillGroupLabel("Competition Preference")
-                        pillWrap(CompetitionPreference.allCases, selection: Binding(
-                            get: { filters.competitionPreference },
-                            set: { filters.competitionPreference = $0 }
-                        ))
+                        pillWrap(CompetitionPreference.allCases, selection: $filters.competitionPreference)
+
+                        note("Counts \(filters.competitorType.rawValue.lowercased())\(filters.businessCategory == nil ? "" : " (\(filters.businessCategory!.rawValue))") within \(filters.searchRadius.label) of each block. Low, balanced and established are the bottom, middle and top thirds of all blocks.")
                     }
                 }
 
@@ -105,10 +95,19 @@ struct MapSidebar: View {
 
                 section("MAP OVERLAYS", key: "overlays") {
                     VStack(spacing: 14) {
-                        overlayToggle("Competitor Markers", isOn: $filters.showCompetitorMarkers)
-                        overlayToggle("Development Sites", isOn: $filters.showDevelopmentSites, isDummy: true)
-                        overlayToggle("Transit Stops", isOn: $filters.showTransitStops, isDummy: true)
-                        overlayToggle("Footfall Zones", isOn: $filters.showFootfallZones)
+                        overlayToggle("Competitor Markers", isOn: $filters.showCompetitorMarkers,
+                                      hint: "Nearby blocks with competitors, around the selected block")
+                        overlayToggle("Business Locations", isOn: $filters.showBusinessDots,
+                                      hint: "Each business and vacancy in the selected block")
+                        overlayToggle("Footfall Zones", isOn: $filters.showFootfallZones,
+                                      hint: "Pedestrian sensors, sized by people per hour")
+                        overlayToggle("Vacancy", isOn: $filters.showVacancyZones,
+                                      hint: "Bigger circle = more empty shopfronts")
+                        overlayToggle("Public Car Parks", isOn: $filters.showCarParks,
+                                      hint: "Commercial off-street car parks, sized by spaces")
+                        overlayToggle("Live On-street Parking", isOn: $filters.showOnStreetParking,
+                                      hint: store.onStreet?.latestReport.map { "Sensor bays, free vs occupied · \(MelbourneTime.time($0))" }
+                                        ?? "Sensor bays, free vs occupied, refreshed every 5 min")
                     }
                 }
 
@@ -124,9 +123,10 @@ struct MapSidebar: View {
                                     .foregroundStyle(AppColor.mutedGrey)
                                 Text(tier.rawValue)
                                     .font(AppFont.nav(13))
-                                    .foregroundStyle(.white.opacity(0.85))
+                                    .foregroundStyle(AppColor.textPrimary.opacity(0.85))
                             }
                         }
+                        note("Hollow pins have Low data confidence. See the Info tab for how scores are calculated.")
                     }
                 }
 
@@ -135,9 +135,7 @@ struct MapSidebar: View {
                 section("COMING SOON", key: "soon", collapsible: false) {
                     VStack(alignment: .leading, spacing: 12) {
                         comingSoonRow("Rental Listings")
-                        comingSoonRow("Cost Estimator")
-                        comingSoonRow("Supplier Market")
-                        comingSoonRow("Multi-location")
+                        comingSoonRow("Multi-location compare")
                     }
                 }
             }
@@ -146,20 +144,104 @@ struct MapSidebar: View {
         .background(AppColor.navyBackground)
     }
 
-    // MARK: - Location / block picker
+    // MARK: - Results header
+
+    private var resultsHeader: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(store.visibleBlocks.count) of \(store.blocks.count) blocks")
+                    .font(AppFont.nav(14, weight: .semibold))
+                    .foregroundStyle(AppColor.textPrimary)
+                Text(filters.timeWindowLabel)
+                    .font(AppFont.nav(11))
+                    .foregroundStyle(AppColor.mutedGrey)
+            }
+            Spacer()
+            if filters.isFiltering || filters.businessCategory != nil || !filters.timesOfDay.isEmpty || !filters.dayTypes.isEmpty {
+                Button("Reset") { filters.resetAll() }
+                    .buttonStyle(.plain)
+                    .font(AppFont.nav(12, weight: .semibold))
+                    .foregroundStyle(AppColor.tealAccent)
+            }
+        }
+    }
+
+    // MARK: - Location
+
+    private var areaPicker: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Area")
+                .font(AppFont.nav(13))
+                .foregroundStyle(AppColor.mutedGrey)
+            Menu {
+                Button("All areas") { filters.area = nil }
+                Divider()
+                ForEach(store.areas, id: \.self) { area in
+                    Button(area) { filters.area = area }
+                }
+            } label: {
+                HStack {
+                    Text(filters.area ?? "All areas")
+                        .font(AppFont.nav(14))
+                        .foregroundStyle(AppColor.textPrimary)
+                    Spacer()
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColor.mutedGrey)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(AppColor.cardSurface)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(AppColor.cardBorder, lineWidth: 1))
+            }
+            .menuStyle(.button)
+            .buttonStyle(.plain)
+        }
+    }
+
+    /// Search by block number or area; otherwise the top-scoring visible blocks.
+    private var listedBlocks: [CityBlock] {
+        let query = blockSearch.trimmingCharacters(in: .whitespaces).lowercased()
+        let pool = query.isEmpty ? store.visibleBlocks : store.blocks.filter {
+            String($0.blockId).hasPrefix(query) || $0.area.lowercased().contains(query)
+        }
+        return pool
+            .sorted { (store.score(for: $0)?.value ?? 0) > (store.score(for: $1)?.value ?? 0) }
+            .prefix(10)
+            .map { $0 }
+    }
 
     private var blockPicker: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Block")
-                .font(AppFont.nav(13))
-                .foregroundStyle(AppColor.mutedGrey)
+            HStack {
+                Text(blockSearch.isEmpty ? "Top blocks" : "Matching blocks")
+                    .font(AppFont.nav(13))
+                    .foregroundStyle(AppColor.mutedGrey)
+                Spacer()
+            }
+
+            HStack(spacing: 6) {
+                Image(systemName: "magnifyingglass").font(.system(size: 11)).foregroundStyle(AppColor.mutedGrey)
+                TextField("Block number or area", text: $blockSearch)
+                    .textFieldStyle(.plain)
+                    .font(AppFont.nav(13))
+                    .foregroundStyle(AppColor.textPrimary)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(AppColor.cardSurface)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
 
             VStack(spacing: 0) {
-                ForEach(pinnedBlocks, id: \.blockId) { block in
-                    blockRow(block, clickable: true)
+                if listedBlocks.isEmpty {
+                    Text(store.source == .loading ? "Loading blocks…" : "No blocks match")
+                        .font(AppFont.nav(12))
+                        .foregroundStyle(AppColor.mutedGrey)
+                        .padding(12)
                 }
-                ForEach(extraBlocks, id: \.blockId) { block in
-                    blockRow(block, clickable: false)
+                ForEach(listedBlocks) { block in
+                    blockRow(block)
                 }
             }
             .background(AppColor.cardSurface)
@@ -168,43 +250,27 @@ struct MapSidebar: View {
         }
     }
 
-    private func blockRow(_ block: BlockSummary, clickable: Bool) -> some View {
-        HStack {
-            Text("Block \(block.blockId)")
-                .font(AppFont.nav(13, weight: clickable ? .semibold : .regular))
-            Spacer()
-            Text(block.clueSmallArea)
+    private func blockRow(_ block: CityBlock) -> some View {
+        let score = store.score(for: block)
+        return HStack(spacing: 10) {
+            Circle().fill(score?.tier.color ?? AppColor.mutedGrey).frame(width: 8, height: 8)
+            Text(verbatim: "Block \(block.blockId)")
+                .font(AppFont.nav(13, weight: .semibold))
+            Text(block.area)
                 .font(AppFont.nav(11))
                 .foregroundStyle(AppColor.mutedGrey)
                 .lineLimit(1)
+            Spacer()
+            Text(score.map { "\($0.value)" } ?? "–")
+                .font(AppFont.mono(12, weight: .semibold))
+                .foregroundStyle(score?.tier.color ?? AppColor.mutedGrey)
         }
-        .foregroundStyle(clickable ? .white : AppColor.inactiveText)
+        .foregroundStyle(AppColor.textPrimary)
         .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(selectedBlockId == block.blockId ? AppColor.tealAccent.opacity(0.15) : .clear)
+        .padding(.vertical, 9)
+        .background(store.selectedBlockId == block.blockId ? AppColor.tealAccent.opacity(0.15) : .clear)
         .contentShape(Rectangle())
-        .onTapGesture {
-            guard clickable else { return }
-            selectedBlockId = block.blockId
-        }
-        .opacity(clickable ? 1 : 0.45)
-    }
-
-    private func labeledField(_ label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(label)
-                .font(AppFont.nav(13))
-                .foregroundStyle(AppColor.mutedGrey)
-            Text(value)
-                .font(AppFont.nav(15))
-                .foregroundStyle(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(AppColor.cardSurface)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(AppColor.cardBorder, lineWidth: 1))
-        }
+        .onTapGesture { store.selectedBlockId = block.blockId }
     }
 
     // MARK: - Business type
@@ -217,7 +283,7 @@ struct MapSidebar: View {
             Text(category.rawValue)
                 .font(AppFont.nav(13, weight: .semibold))
         }
-        .foregroundStyle(isSelected ? AppColor.tealAccent : .white.opacity(0.8))
+        .foregroundStyle(isSelected ? AppColor.tealAccent : AppColor.textPrimary.opacity(0.8))
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)
         .background(isSelected ? AppColor.tealAccent.opacity(0.12) : AppColor.cardSurface)
@@ -240,6 +306,13 @@ struct MapSidebar: View {
             .foregroundStyle(AppColor.mutedGrey)
     }
 
+    private func note(_ text: String) -> some View {
+        Text(text)
+            .font(AppFont.nav(11))
+            .foregroundStyle(AppColor.mutedGrey)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+
     private func pillWrap<T: Identifiable & RawRepresentable>(_ items: [T], selection: Binding<T>) -> some View where T.RawValue == String {
         FlowLayout(spacing: 8) {
             ForEach(items) { item in
@@ -250,24 +323,10 @@ struct MapSidebar: View {
         }
     }
 
-    private func multiPillWrap<T: Identifiable & RawRepresentable & Hashable>(_ items: [T], selection: Binding<Set<T>>) -> some View where T.RawValue == String {
-        FlowLayout(spacing: 8) {
-            ForEach(items) { item in
-                pill(item.rawValue, isOn: selection.wrappedValue.contains(item)) {
-                    if selection.wrappedValue.contains(item) {
-                        selection.wrappedValue.remove(item)
-                    } else {
-                        selection.wrappedValue.insert(item)
-                    }
-                }
-            }
-        }
-    }
-
     private func pill(_ label: String, isOn: Bool, action: @escaping () -> Void) -> some View {
         Text(label)
             .font(AppFont.nav(13, weight: .semibold))
-            .foregroundStyle(isOn ? AppColor.navyBackground : .white.opacity(0.85))
+            .foregroundStyle(isOn ? AppColor.navyBackground : AppColor.textPrimary.opacity(0.85))
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
             .background(isOn ? AppColor.tealAccent : AppColor.cardSurface)
@@ -279,18 +338,15 @@ struct MapSidebar: View {
 
     // MARK: - Overlays
 
-    private func overlayToggle(_ label: String, isOn: Binding<Bool>, isDummy: Bool = false) -> some View {
+    private func overlayToggle(_ label: String, isOn: Binding<Bool>, hint: String) -> some View {
         HStack {
-            Text(label)
-                .font(AppFont.nav(14))
-                .foregroundStyle(.white.opacity(0.9))
-            if isDummy {
-                Text("DEMO")
-                    .font(AppFont.mono(9))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(AppFont.nav(14))
+                    .foregroundStyle(AppColor.textPrimary.opacity(0.9))
+                Text(hint)
+                    .font(AppFont.nav(10))
                     .foregroundStyle(AppColor.mutedGrey)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .overlay(Capsule().stroke(AppColor.mutedGrey.opacity(0.5), lineWidth: 1))
             }
             Spacer()
             Toggle("", isOn: isOn)
@@ -326,7 +382,7 @@ struct MapSidebar: View {
                 Text(title)
                     .font(AppFont.mono(12, weight: .semibold))
                     .tracking(1.0)
-                    .foregroundStyle(.white.opacity(0.9))
+                    .foregroundStyle(AppColor.textPrimary.opacity(0.9))
                 Spacer()
                 if collapsible {
                     Image(systemName: expanded.contains(key) ? "chevron.up" : "chevron.down")

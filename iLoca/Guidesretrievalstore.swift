@@ -27,6 +27,8 @@ struct GuideChunk: Identifiable {
 @Observable
 class GuidesRetrievalStore {
     private(set) var chunks: [GuideChunk] = []
+    /// Full extracted text of each guide (they're short: ~4k tokens in total).
+    private(set) var fullText: [GuideBucket: String] = [:]
     private(set) var isReady = false
     private(set) var loadError: String?
 
@@ -38,6 +40,7 @@ class GuidesRetrievalStore {
         guard !isReady else { return }
 
         var built: [GuideChunk] = []
+        var texts: [GuideBucket: String] = [:]
         var missing: [String] = []
 
         for bucket in GuideBucket.allCases {
@@ -47,6 +50,7 @@ class GuidesRetrievalStore {
                 continue
             }
             let fullText = extractText(from: doc)
+            texts[bucket] = fullText
             for piece in chunk(text: fullText) {
                 built.append(GuideChunk(bucket: bucket, text: piece))
             }
@@ -58,6 +62,7 @@ class GuidesRetrievalStore {
 
         await MainActor.run {
             self.chunks = built
+            self.fullText = texts
             self.isReady = true
             if !missing.isEmpty {
                 self.loadError = "Missing from app bundle: \(missing.joined(separator: ", ")).pdf"
@@ -75,26 +80,27 @@ class GuidesRetrievalStore {
         return text
     }
 
-    /// Merges short paragraphs so each chunk carries enough context, and caps
-    /// chunk size so several can fit in the model's prompt at once.
+    /// Groups lines into ~500-character chunks so retrieval can pick out the
+    /// relevant passage rather than a whole page. (These PDFs have no blank lines
+    /// between paragraphs, so splitting on "\n\n" would give one chunk per page.)
     private func chunk(text: String) -> [String] {
-        let paragraphs = text
-            .components(separatedBy: "\n\n")
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { $0.count > 20 }
+        let lines = text
+            .components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
 
+        let target = 500
         var result: [String] = []
         var buffer = ""
-        for p in paragraphs {
-            if buffer.count + p.count < 600 {
-                buffer += (buffer.isEmpty ? "" : "\n") + p
-            } else {
-                if !buffer.isEmpty { result.append(buffer) }
-                buffer = p
+        for line in lines {
+            if !buffer.isEmpty && buffer.count + line.count > target {
+                result.append(buffer)
+                buffer = ""
             }
+            buffer += (buffer.isEmpty ? "" : "\n") + line
         }
         if !buffer.isEmpty { result.append(buffer) }
-        return result
+        return result.filter { $0.count > 40 }
     }
 
     /// Returns the top-K most relevant chunks across ALL four guides for a query.

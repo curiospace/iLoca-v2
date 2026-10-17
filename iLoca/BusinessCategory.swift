@@ -8,11 +8,13 @@
 
 import SwiftUI
 
-/// Only 3 categories, matched against real ANZSIC4 industry strings seen in the
-/// business establishments data (e.g. "cafes & Restaurants", "Retail Trade",
-/// "Clothing Retailing", "Finance/Investment Services", "Pathology & Diagnostic
-/// Imaging"). No catch-all "Others" bucket — every real business in the dataset
-/// falls into one of these three.
+/// The three business types a founder can pick. Both datasets map onto them the
+/// same way, so block-level counts (dataset 2) and individual businesses
+/// (dataset 3) always agree:
+///   - FnB:      ANZSIC subdivision 45 (food and beverage services), the CLUE
+///               "food_and_beverage_services" column
+///   - Retail:   ANZSIC subdivisions 39-43 (retail trade), the CLUE "retail_trade" column
+///   - Services: every other active industry
 enum BusinessCategory: String, CaseIterable, Identifiable {
     case cafe = "FnB"
     case retail = "Retail"
@@ -28,23 +30,20 @@ enum BusinessCategory: String, CaseIterable, Identifiable {
         }
     }
 
-    /// Matches a raw ANZSIC4 industry string from the dataset to one of our 3 categories.
-    /// Uses substring matching since the real strings vary slightly
-    /// (e.g. "cafes & Restaurants" vs "Takeaway Food Services" vs "Specialised Food Retailing").
-    static func categorize(_ industry: String) -> BusinessCategory {
-        let lower = industry.lowercased()
-
-        let cafeKeywords = ["cafe", "restaurant", "takeaway", "food retailing", "food services", "juice", "coffee"]
-        if cafeKeywords.contains(where: { lower.contains($0) }) {
-            return .cafe
+    var color: Color {
+        switch self {
+        case .cafe: return AppColor.gradientAmber
+        case .retail: return Color(hex: 0xB48CF0)
+        case .services: return AppColor.gradientTeal
         }
+    }
 
-        let retailKeywords = ["retail", "clothing", "footwear", "jewellery", "grocery", "supermarket", "antique", "goods"]
-        if retailKeywords.contains(where: { lower.contains($0) }) {
-            return .retail
-        }
-
-        // Everything else — finance, health, professional/scientific/technical, etc.
+    /// Classifies a 4-digit ANZSIC code from dataset 3. "0000" (vacant space) is
+    /// handled by the caller, since a vacancy isn't a business of any type.
+    static func categorize(anzsicCode: String) -> BusinessCategory {
+        let subdivision = anzsicCode.prefix(2)
+        if subdivision == "45" { return .cafe }
+        if ["39", "40", "41", "42", "43"].contains(subdivision) { return .retail }
         return .services
     }
 }

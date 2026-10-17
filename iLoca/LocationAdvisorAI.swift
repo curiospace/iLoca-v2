@@ -1,207 +1,245 @@
 import Foundation
-import FoundationModels
 
-// MARK: - One message in the chat (either from you, or from the AI)
+// MARK: - Grounding: turns iLoca's real data into the text the model reads.
+// Shared by the Map advisor, the Info assistant and the PDF report, so the AI
+// always sees exactly the numbers the UI shows.
 
-struct ChatMessage: Identifiable {
-    let id = UUID()
-    let isUser: Bool
-    let text: String
+enum Grounding {
+
+    static func filtersSummary(_ filters: MapFilterState) -> String {
+        var lines: [String] = []
+        lines.append("Business type: \(filters.businessCategory?.rawValue ?? "Not chosen")")
+        lines.append("Area: \(filters.area ?? "All areas")")
+        lines.append("Time window: \(filters.timeWindowLabel)")
+        lines.append("Footfall level filter: \(filters.footfallLevel.rawValue)")
+        lines.append("Competitor type: \(filters.competitorType.rawValue)")
+        lines.append("Search radius: \(filters.searchRadius.label)")
+        lines.append("Competition preference: \(filters.competitionPreference.rawValue)")
+        return lines.joined(separator: "\n")
+    }
+
+    /// - Parameter compact: a shorter version for the on-device model's small context
+    ///   window (peaks instead of every hour, fewer named businesses).
+    static func blockContext(_ store: CityDataStore, block: CityBlock, includeBusinesses: Bool = true, compact: Bool = false) -> String {
+        let filters = store.filters
+        var lines: [String] = []
+        lines.append("BLOCK \(block.blockId), \(block.area) (City of Melbourne CLUE block)")
+        lines.append("Business census year: \(store.censusYear)")
+        lines.append("Premises recorded: \(block.totalPremises); active businesses: \(block.activeEstablishments); vacant: \(block.vacantPremises) (\(String(format: "%.1f", block.vacancyRatePct))% vacancy)")
+        lines.append("By type: FnB \(block.fnbCount), Retail \(block.retailCount), Services \(block.servicesCount)")
+
+        if !block.industryMix.isEmpty {
+            lines.append("Industry mix (CLUE industry: count): " + block.industryMix.sorted { $0.value > $1.value }
+                .prefix(compact ? 6 : 20).map { "\($0.key) \($0.value)" }.joined(separator: "; "))
+        }
+
+        if let sensor = store.sensor(for: block), let distance = block.sensorDistanceMetres {
+            lines.append("\nFOOT TRAFFIC (Pedestrian Counting System, sensor \"\(sensor.description)\", \(Int(distance)) m from the block centre)")
+            if let ff = store.footfall(for: block) {
+                lines.append("Average for the selected window (\(filters.timeWindowLabel)): \(Int(ff.rounded())) people/hour")
+            }
+            for day in DayType.allCases {
+                if let profile = store.hourlyProfile(for: block, dayType: day) {
+                    let peak = profile.enumerated().compactMap { i, v in v.map { (i, $0) } }.max { $0.1 < $1.1 }
+                    let hourly = profile.enumerated().compactMap { i, v in v.map { "\(i):00 \(Int($0.rounded()))" } }
+                    if let peak {
+                        lines.append("\(day.rawValue) peak: \(peak.0):00 at \(Int(peak.1.rounded())) people/hour."
+                                     + (compact ? "" : " Hourly averages: \(hourly.joined(separator: ", "))"))
+                    }
+                }
+            }
+            if let start = store.snapshot?.footfallWindowStart, let end = store.snapshot?.footfallWindowEnd {
+                lines.append("Averaged over \(MelbourneTime.day(start)) to \(MelbourneTime.day(end)).")
+            }
+        } else {
+            lines.append("\nFOOT TRAFFIC: no pedestrian sensor within \(Int(OpenDataClient.sensorMatchRadius)) m, so foot traffic here is unknown (not necessarily low).")
+        }
+
+        if let m = store.metrics(for: block) {
+            lines.append("\nOPPORTUNITY SCORE: \(m.score.value)/100 (\(m.score.tier.rawValue))")
+            for c in m.score.components {
+                let v = c.value.map { "\(Int($0.rounded()))/100" } ?? "not available"
+                lines.append("- \(c.kind.rawValue): \(v), weight \(Int((c.appliedWeight * 100).rounded()))% (formula weight \(Int(c.nominalWeight * 100))%). \(c.detail)")
+            }
+            lines.append("\nCOMPETITION: \(m.competitorsInRadius) \(filters.competitorType.rawValue.lowercased()) within \(filters.searchRadius.label) (business type: \(filters.businessCategory?.rawValue ?? "not chosen")). Compared with other blocks this is \(m.competitionBand == .low ? "low" : m.competitionBand == .established ? "high (an established area)" : "about average").")
+            if let tier = m.footfallTier { lines.append("Foot-traffic level versus other measured blocks: \(tier.rawValue)") }
+        }
+
+        let parking = store.parking(for: block)
+        lines.append("\nPARKING within \(filters.searchRadius.label) (context only, not part of the score):")
+        if let offStreet = store.snapshot?.offStreet {
+            lines.append("- Off-street (\(offStreet.censusYear) census): \(parking.carParks.count) public car parks, \(parking.publicSpaces) public spaces; \(parking.privateSpacesInBlock) private spaces inside this block.")
+            for item in parking.carParks.prefix(compact ? 2 : 5) {
+                lines.append("  - \(item.carPark.address): \(item.carPark.spaces) spaces, \(Int(item.distance)) m away")
+            }
+        }
+        if let onStreet = store.onStreet {
+            if parking.bayCount > 0 {
+                lines.append("- On-street sensor bays, live as of \(onStreet.latestReport.map { MelbourneTime.dayTime($0) } ?? "now"): \(parking.freeBays) of \(parking.bayCount) free. Only sensor-fitted bays are counted.")
+            } else {
+                lines.append("- No sensor-fitted on-street bays within the radius.")
+            }
+        }
+
+        let confidence = store.confidence(for: block)
+        lines.append("\nCONFIDENCE: \(confidence.level.rawValue) (\(confidence.points)/100)")
+        for f in confidence.factors { lines.append("- \(f.name): \(f.points)/\(f.maxPoints). \(f.detail)") }
+
+        if includeBusinesses, let premises = store.premisesByBlock[block.blockId] {
+            let businesses = premises.filter { !$0.isVacant }
+            let vacancies = premises.filter(\.isVacant)
+            let limit = compact ? 15 : businesses.count
+            lines.append("\nNAMED BUSINESSES IN THIS BLOCK (\(businesses.count) total\(businesses.count > limit ? ", first \(limit) listed" : "")):")
+            for b in businesses.prefix(limit) {
+                lines.append(compact ? "- \(b.name) (\(b.industry))" : "- \(b.name) [\(b.category?.rawValue ?? "")] \(b.industry), \(b.address)")
+            }
+            if !vacancies.isEmpty && !compact {
+                lines.append("\nVACANT PREMISES (\(vacancies.count)): " + vacancies.prefix(25).map(\.address).joined(separator: "; "))
+            }
+        } else {
+            lines.append("\nNamed business list for this block is still loading, so only the counts above are available right now.")
+        }
+
+        lines.append("\nNOT AVAILABLE in iLoca's data: commercial rents, lease terms, property listings, revenue or ROI, public transport, floor space, demographics, zoning or planning approvals. On-street parking covers sensor-fitted bays only.")
+        return lines.joined(separator: "\n")
+    }
+
+    static func cityOverview(_ store: CityDataStore) -> String {
+        let blocks = store.blocks
+        guard !blocks.isEmpty else { return "City data hasn't loaded yet." }
+        let totalPremises = blocks.map(\.totalPremises).reduce(0, +)
+        let vacant = blocks.map(\.vacantPremises).reduce(0, +)
+        let active = blocks.map(\.activeEstablishments).reduce(0, +)
+        let withSensor = blocks.filter { $0.sensorId != nil }.count
+
+        var lines: [String] = []
+        lines.append("CITY-WIDE SUMMARY, City of Melbourne (\(store.censusYear) business census)")
+        lines.append("Blocks with commercial premises: \(blocks.count); premises: \(totalPremises); active businesses: \(active); vacant: \(vacant) (\(String(format: "%.1f", Double(vacant) / Double(max(totalPremises, 1)) * 100))%)")
+        lines.append("Blocks with a pedestrian sensor within \(Int(OpenDataClient.sensorMatchRadius)) m: \(withSensor) of \(blocks.count)")
+        if let offStreet = store.snapshot?.offStreet {
+            lines.append("Public off-street car parks (\(offStreet.censusYear) census): \(offStreet.carParks.count), \(offStreet.carParks.map(\.spaces).reduce(0, +)) spaces")
+        }
+        if let onStreet = store.onStreet {
+            let free = onStreet.bays.filter { !$0.isOccupied }.count
+            lines.append("On-street sensor bays right now: \(free) of \(onStreet.bays.count) free")
+        }
+
+        let byArea = Dictionary(grouping: blocks, by: \.area)
+        lines.append("\nBy area (blocks, active businesses, vacancy %, FnB, Retail):")
+        for (area, group) in byArea.sorted(by: { $0.key < $1.key }) {
+            let p = group.map(\.totalPremises).reduce(0, +), v = group.map(\.vacantPremises).reduce(0, +)
+            lines.append("- \(area): \(group.count), \(group.map(\.activeEstablishments).reduce(0, +)), \(String(format: "%.1f", Double(v) / Double(max(p, 1)) * 100))%, \(group.map(\.fnbCount).reduce(0, +)), \(group.map(\.retailCount).reduce(0, +))")
+        }
+
+        let ranked = store.visibleBlocks.compactMap { b in store.metrics(for: b).map { (b, $0) } }
+            .sorted { $0.1.score.value > $1.1.score.value }
+        lines.append("\nTop blocks by Opportunity Score under the current filters (\(store.filters.timeWindowLabel)):")
+        for (b, m) in ranked.prefix(12) {
+            lines.append("- Block \(b.blockId) (\(b.area)): score \(m.score.value), confidence \(store.confidence(for: b).level.rawValue), \(b.activeEstablishments) active, \(String(format: "%.0f", b.vacancyRatePct))% vacant\(m.footfall.map { ", \(Int($0)) people/hr" } ?? ", no sensor")")
+        }
+        lines.append("\nCurrent filters:\n\(filtersSummary(store.filters))")
+        return lines.joined(separator: "\n")
+    }
+
+    static func sources(for block: CityBlock?) -> [String] {
+        var sources = [CityDataset.blocks, .industryPerBlock, .establishments].map(\.title)
+        if block == nil || block?.sensorId != nil { sources.append("Pedestrian Counting System") }
+        sources.append(CityDataset.offStreetParking.title)
+        sources.append(CityDataset.onStreetParking.title)
+        return sources
+    }
 }
 
-// MARK: - The AI "brain" for the Location Advisor panel.
-// This talks to Apple's on-device Foundation Models framework — no internet needed,
-// nothing leaves the Mac. That's the whole point of this hackathon track.
+// MARK: - Map advisor (floating Loca panel on Home + Map)
 
 @Observable
-class LocationAdvisorAI {
-    var messages: [ChatMessage] = []
-    var isThinking: Bool = false
+final class LocationAdvisorAI {
+    let session = ChatSession()
+    private(set) var groundedBlockId: Int?
 
-    // Whether the on-device model is usable right now on this Mac
-    var availabilityStatus: String = "Checking..."
-    var isAvailable: Bool = false
+    var messages: [ChatMessage] { session.messages }
 
-    private var session: LanguageModelSession?
-    private var currentBlockId: Int?
-
-    /// Call this once when the app launches, to check whether Apple Intelligence
-    /// is turned on and the model is ready to use.
-    func checkAvailability() {
-        switch SystemLanguageModel.default.availability {
-        case .available:
-            isAvailable = true
-            availabilityStatus = "Ready"
-        case .unavailable(.deviceNotEligible):
-            isAvailable = false
-            availabilityStatus = "This Mac doesn't support Apple Intelligence."
-        case .unavailable(.appleIntelligenceNotEnabled):
-            isAvailable = false
-            availabilityStatus = "Turn on Apple Intelligence in System Settings to use this."
-        case .unavailable(.modelNotReady):
-            isAvailable = false
-            availabilityStatus = "The on-device model is still downloading. Try again shortly."
-        case .unavailable(let other):
-            isAvailable = false
-            availabilityStatus = "Unavailable: \(other)"
-        @unknown default:
-            isAvailable = false
-            availabilityStatus = "Unavailable for an unknown reason."
-        }
-    }
-
-    /// Starts a fresh conversation grounded in a specific block's real data.
-    /// Called every time the user selects a different block.
-    func startNewSession(for context: BlockAIContext) {
-        currentBlockId = context.blockId
-        messages = []
-
-        let instructions = """
-        You are a location advisor helping someone decide whether a Melbourne CBD city block \
-        is a good fit for a new small business. You are given REAL data about one specific \
-        block: the actual named businesses there (where available), business counts by \
-        category, the vacancy rate, and (if available) real pedestrian foot traffic patterns \
-        by hour.
-
-        Rules you must follow:
-        - Only use the businesses and numbers given to you in the data below. Never invent a \
-        business name, category, or statistic.
-        - The 3D map the user sees also shows Apple Maps' own live business listings (shop \
-        names/icons on the map itself). Those are NOT part of your data and you have no \
-        information about them — if asked about a specific named business you don't recognize \
-        from your data below, say plainly that it isn't part of your verified dataset, don't \
-        guess, and suggest checking the map label directly instead.
-        - You have no ability to calculate walking distance or "nearest" between businesses — \
-        if asked which business is nearest/closest, say that distance calculation isn't \
-        something you can do, and instead mention which relevant businesses ARE in this block \
-        from your data.
-        - If asked about something else not included in the data (like exact rent prices, \
-        revenue, or ROI), clearly say that specific figure isn't available, and instead offer \
-        the closest real signal you DO have (e.g. vacancy rate, competitor density, or foot \
-        traffic).
-        - Vary your phrasing naturally — never repeat the exact same sentence for different \
-        questions. Address what was actually asked each time.
-        - Keep answers short: 2-4 sentences, plain conversational language, no bullet lists \
-        unless truly helpful.
-        - Be specific and use the actual numbers/names from the data, not vague statements.
-        """
-
-        session = LanguageModelSession(instructions: instructions)
-        primeSession(with: "Here is the data for the block we'll discuss:\n\(context.dataSummary)\n\nJust acknowledge you're ready — don't summarize yet.")
-    }
-
-    /// Starts a fresh conversation grounded in city-wide aggregate stats, for
-    /// when no specific block is selected yet. Same honesty rules as the
-    /// block-specific session — just a wider, shallower dataset underneath.
-    func startGeneralSession(overview: String) {
-        currentBlockId = nil
-        messages = []
-
-        let instructions = """
-        You are a location advisor helping someone explore Melbourne CBD blocks to find a \
-        good fit for a new small business. No specific block has been selected yet — you have \
-        REAL city-wide summary data below (aggregated across all loaded blocks), not per-block \
-        detail.
-
-        Rules you must follow:
-        - Only use the numbers given to you in the data below. Never invent statistics.
-        - If asked about a specific block by number, or something too granular for city-wide \
-        data (like exact rent, revenue, or ROI), say clearly that level of detail isn't \
-        available in this general view, and suggest they select a block on the map for \
-        block-level detail.
-        - Keep answers short: 2-4 sentences, plain conversational language, no bullet lists \
-        unless truly helpful.
-        - Be specific and use the actual numbers from the data, not vague statements.
-        """
-
-        session = LanguageModelSession(instructions: instructions)
-        primeSession(with: "Here is the city-wide data so far:\n\(overview)\n\nJust acknowledge you're ready — don't summarize yet.")
-    }
-
-    private func primeSession(with primerText: String) {
-        Task {
-            do {
-                _ = try await session?.respond(to: primerText)
-            } catch {
-                print("⚠️ Failed to prime AI session: \(error)")
-            }
-        }
-    }
-
-    /// Sends a question to the AI and appends both the question and the answer to the chat.
-    func ask(_ question: String) async {
-        guard let session else {
-            messages.append(ChatMessage(isUser: true, text: question))
-            messages.append(ChatMessage(
-                isUser: false,
-                text: "The AI session hasn't started yet — this shouldn't normally happen. Try selecting a block or reopening this panel."
-            ))
-            return
-        }
-        messages.append(ChatMessage(isUser: true, text: question))
-        isThinking = true
-        defer { isThinking = false }
-
-        do {
-            let response = try await session.respond(to: question)
-            messages.append(ChatMessage(isUser: false, text: response.content))
-        } catch {
-            messages.append(ChatMessage(isUser: false, text: "Sorry, something went wrong answering that: \(error.localizedDescription)"))
-        }
-    }
-}
-
-// MARK: - Builds the grounded data summary handed to the AI for a given block.
-// This is the important bit: it turns your real JSON data into plain text the model can read,
-// and it's honest about what's missing rather than letting the model guess.
-
-struct BlockAIContext {
-    let blockId: Int
-    let dataSummary: String
-
-    init(summary: BlockSummary, detail: BlockDetail?) {
-        self.blockId = summary.blockId
-        var lines: [String] = []
-
-        lines.append("Block ID: \(summary.blockId), area: \(summary.clueSmallArea)")
-        lines.append("Active businesses: \(summary.activeEstablishments)")
-        lines.append("Vacant shopfronts: \(summary.vacantCount) (\(String(format: "%.1f", summary.vacancyRatePct))% vacancy rate)")
-
-        if let peakHour = summary.avgPeakHourWeekday, let peakCount = summary.avgPeakCountWeekday {
-            lines.append("Real pedestrian data available: weekday foot traffic peaks around \(peakHour):00 at roughly \(peakCount) people/hour.")
+    /// Grounds on the current selection, clearing the chat if the subject changed.
+    func reground(store: CityDataStore) {
+        if let block = store.selectedBlock {
+            groundOnBlock(block, store: store)
         } else {
-            lines.append("No pedestrian sensor data is available for this specific block.")
+            groundOnCity(store)
         }
+    }
 
-        if let detail {
-            lines.append("\nFull industry breakdown (business count by type):")
-            for (industry, count) in detail.industryBreakdown.sorted(by: { $0.value > $1.value }).prefix(15) {
-                lines.append("- \(industry): \(count)")
-            }
-
-            // The actual named businesses — this is what lets the AI answer
-            // "is there a cafe here" or "name a business" instead of only
-            // knowing category counts.
-            lines.append("\nActual named businesses in this block (real data, up to 40 shown):")
-            for biz in detail.businesses.prefix(40) {
-                lines.append("- \(biz.name) (\(biz.industryAnzsic4)) — \(biz.address)")
-            }
-            if detail.businesses.count > 40 {
-                lines.append("...and \(detail.businesses.count - 40) more businesses not listed here individually, but counted in the industry breakdown above.")
-            }
+    /// Refreshes grounding with the latest filters and data (same subject keeps
+    /// the conversation), then asks.
+    func ask(_ question: String, store: CityDataStore) {
+        if let block = store.selectedBlock {
+            groundOnBlock(block, store: store, keepConversation: true)
         } else {
-            lines.append("\nTop industries in this block:")
-            for (industry, count) in summary.topIndustries.sorted(by: { $0.value > $1.value }) {
-                lines.append("- \(industry): \(count)")
-            }
-            lines.append("\nNo individual business names are available for this block — only category-level counts above.")
+            groundOnCity(store)
         }
+        session.ask(question)
+    }
 
-        lines.append("\nNo walking-distance or 'nearest business' calculation is available — you cannot determine which business is physically closest to another point.")
-        lines.append("\nAny business names/icons visible on the map itself that are NOT listed above are from Apple Maps' own live business data, not part of this dataset — you have no information about them.")
+    func groundOnBlock(_ block: CityBlock, store: CityDataStore, keepConversation: Bool = false) {
+        let system = Self.blockSystem(Grounding.blockContext(store, block: block))
+        let compact = Self.blockSystem(Grounding.blockContext(store, block: block, compact: true))
+        let confidence = store.confidence(for: block)
+        let provenance = AnswerProvenance(
+            sources: Grounding.sources(for: block),
+            confidence: confidence.level,
+            confidenceNote: confidence.summary,
+            notes: decisionNotes(block: block, store: store)
+        )
+        if keepConversation && groundedBlockId == block.blockId {
+            session.updateGrounding(system: system, compactSystem: compact, provenance: provenance)
+        } else {
+            session.reset(system: system, compactSystem: compact, provenance: provenance)
+        }
+        groundedBlockId = block.blockId
+    }
 
-        lines.append("\nData NOT available for this block: exact commercial rent prices, revenue/ROI figures, off-street parking counts, floor space in square metres, residential dwelling counts. If asked about these, be honest they're not available rather than guessing.")
+    private static func blockSystem(_ context: String) -> String {
+        """
+        You are Loca, a location advisor helping a first-time small business owner decide whether \
+        a City of Melbourne block suits their business. Below is iLoca's REAL data for the selected \
+        block: City of Melbourne CLUE census figures, live pedestrian sensor averages, and iLoca's \
+        own computed Opportunity Score and confidence rating.
 
-        self.dataSummary = lines.joined(separator: "\n")
+        When asked why a score is what it is, explain it using the factor breakdown and weights below. \
+        When the confidence is Medium or Low, say so and name the reason. Distances between businesses \
+        and walking times are not in the data.
+
+        \(context)
+        """
+    }
+
+    func groundOnCity(_ store: CityDataStore) {
+        let system = """
+        You are Loca, a location advisor helping a first-time small business owner explore City of \
+        Melbourne blocks. No block is selected yet. Below is REAL city-wide summary data. For block-level \
+        detail (named businesses, hourly foot traffic), suggest they select a block on the map.
+
+        \(Grounding.cityOverview(store))
+        """
+        let provenance = AnswerProvenance(
+            sources: Grounding.sources(for: nil),
+            notes: ["Answered from city-wide totals and the top-scoring blocks under your current filters."]
+        )
+        if groundedBlockId == nil && !session.messages.isEmpty {
+            session.updateGrounding(system: system, provenance: provenance)
+        } else {
+            session.reset(system: system, provenance: provenance)
+        }
+        groundedBlockId = nil
+    }
+
+    private func decisionNotes(block: CityBlock, store: CityDataStore) -> [String] {
+        guard let m = store.metrics(for: block) else { return [] }
+        var notes = ["Opportunity Score \(m.score.value): " + m.score.components.map { c in
+            c.value == nil ? "\(c.kind.rawValue.lowercased()) not available"
+                : "\(c.kind.rawValue.lowercased()) \(Int(c.value!.rounded())) × \(Int((c.appliedWeight * 100).rounded()))%"
+        }.joined(separator: " + ")]
+        notes.append("Filters applied: \(store.filters.timeWindowLabel); \(store.filters.businessCategory?.rawValue ?? "no business type"); \(store.filters.searchRadius.label) radius.")
+        notes.append("Loca only sees the data listed above. It has no rent, zoning or public transport data.")
+        return notes
     }
 }

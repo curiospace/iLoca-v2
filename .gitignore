@@ -1,0 +1,19 @@
+# Xcode per-user data (includes the scheme that holds ANTHROPIC_API_KEY)
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+
+# Secrets
+.env
+*.env
+
+# macOS
+.DS_Store
+
+# Project docs (assessment, to-do, diagrams) — kept local
+docs/
+
+# Local toolchain files
+.swift-version
+swiftly.pkg

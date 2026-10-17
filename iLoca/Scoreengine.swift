@@ -9,19 +9,7 @@
 import SwiftUI
 
 /// The 4-tier Opportunity Score used consistently across pins, the sidebar legend,
-/// and the block detail panel. This replaces the old placeholder 3-color badge
-/// (High Vacancy / Verified Data / Standard) with a real weighted composite,
-/// built only from data we actually have:
-///
-///   - Footfall (40%): real hourly pedestrian counts where we have sensor coverage
-///     (68 of 544 blocks); everywhere else, honestly treated as "Low" per spec,
-///     not hidden or hallucinated.
-///   - Vacancy (40%): inverse of vacancy rate — fewer empty shopfronts = higher score.
-///   - Business density (20%): active establishments, normalized against the
-///     busiest block in the dataset, as a proxy for area vibrancy.
-///
-/// This is arithmetic, not an AI guess — same principle the AI advisor panel
-/// already follows (grounded in real numbers, no fabricated precision).
+/// the block detail panel and the Info tab.
 enum OpportunityTier: String, CaseIterable {
     case excellent = "Excellent"
     case good = "Good"
@@ -56,35 +44,92 @@ enum OpportunityTier: String, CaseIterable {
     }
 }
 
+/// One factor of the Opportunity Score, kept so the UI can show the breakdown
+/// ("Why this location?") instead of a single opaque number.
+struct ScoreComponent: Identifiable {
+    enum Kind: String { case footfall = "Foot traffic", vacancy = "Occupied shopfronts", density = "Business activity" }
+
+    let kind: Kind
+    /// Weight from the published formula (0...1).
+    let nominalWeight: Double
+    /// Weight actually applied after missing factors are removed (0...1).
+    let appliedWeight: Double
+    /// Factor score 0...100, nil when the data for it doesn't exist.
+    let value: Double?
+    /// Plain-language explanation of how the value was derived.
+    let detail: String
+    /// One-line version for dashboard rows, e.g. "919 people/hr vs 1,515 at the busiest blocks".
+    var short: String = ""
+
+    var id: String { kind.rawValue }
+    var contribution: Double { (value ?? 0) * appliedWeight }
+    var isMissing: Bool { value == nil }
+}
+
+/// Weighted composite built only from data iLoca actually has. Arithmetic, not
+/// an AI guess:
+///   - Foot traffic (40%): average hourly pedestrians in the selected time window at
+///     the nearest sensor, relative to the busiest 10% of measured blocks.
+///   - Occupied shopfronts (40%): 100 minus the vacancy rate.
+///   - Business activity (20%): active businesses relative to the busiest 5% of blocks.
+/// A block with no pedestrian sensor nearby is scored on the other two factors
+/// (weights rescaled) instead of being assumed quiet, and its confidence drops.
 struct OpportunityScore {
-    let value: Int          // 0...100
+    static let footfallWeight = 0.4
+    static let vacancyWeight = 0.4
+    static let densityWeight = 0.2
+
+    let value: Int
     let tier: OpportunityTier
+    let components: [ScoreComponent]
+
+    var hasFootfall: Bool { components.contains { $0.kind == .footfall && !$0.isMissing } }
 
     /// - Parameters:
-    ///   - block: the block being scored
-    ///   - maxActiveEstablishments: the busiest block's active-business count in the
-    ///     currently loaded dataset, used to normalize the density component.
-    static func compute(for block: BlockSummary, maxActiveEstablishments: Int) -> OpportunityScore {
-        // Footfall component (0-100): real data where we have it, honestly-low otherwise.
-        let footfallScore: Double
-        if let peakCount = block.avgPeakCountWeekday, block.pedestrianSensorsCount > 0 {
-            // Normalize against a reasonable busy-block ceiling (~800/hr peak observed in block 25 data).
-            footfallScore = min(100, (Double(peakCount) / 800.0) * 100)
+    ///   - footfall: people per hour in the selected window, nil if no sensor matched.
+    ///   - footfallReference: 90th-percentile footfall across measured blocks, same window.
+    ///   - densityReference: 95th-percentile active-business count across blocks.
+    static func compute(
+        block: CityBlock,
+        footfall: Double?,
+        footfallReference: Double,
+        densityReference: Double,
+        timeWindowLabel: String
+    ) -> OpportunityScore {
+        let footfallValue = footfall.map { min(100, $0 / max(footfallReference, 1) * 100) }
+        let vacancyValue = max(0, 100 - block.vacancyRatePct)
+        let densityValue = min(100, Double(block.activeEstablishments) / max(densityReference, 1) * 100)
+
+        let available = (footfallValue == nil ? 0 : footfallWeight) + vacancyWeight + densityWeight
+        func applied(_ w: Double, present: Bool = true) -> Double { present ? w / available : 0 }
+
+        let footfallDetail: String
+        if let footfall {
+            footfallDetail = String(format: "%.0f people/hr (%@) at the nearest sensor, against %.0f/hr for the busiest 10%% of measured blocks.",
+                                    footfall, timeWindowLabel, footfallReference)
         } else {
-            // No sensor coverage — treated as "Low", not "no data" (per product decision).
-            footfallScore = 20
+            footfallDetail = "No pedestrian sensor within \(Int(OpenDataClient.sensorMatchRadius)) m, so this factor is left out and the other two are re-weighted. It is not assumed to be quiet."
         }
 
-        // Vacancy component (0-100): lower vacancy = higher score.
-        let vacancyScore = max(0, 100 - block.vacancyRatePct)
+        let components = [
+            ScoreComponent(kind: .footfall, nominalWeight: footfallWeight,
+                           appliedWeight: applied(footfallWeight, present: footfallValue != nil),
+                           value: footfallValue, detail: footfallDetail,
+                           short: footfall.map { "\(Int($0.rounded()).formatted()) people/hr vs \(Int(footfallReference.rounded()).formatted()) at the busiest blocks" }
+                               ?? "No sensor nearby, so left out"),
+            ScoreComponent(kind: .vacancy, nominalWeight: vacancyWeight,
+                           appliedWeight: applied(vacancyWeight), value: vacancyValue,
+                           detail: String(format: "%d of %d premises vacant (%.1f%%). Fewer empty shopfronts suggests a healthier strip.",
+                                          block.vacantPremises, block.totalPremises, block.vacancyRatePct),
+                           short: String(format: "%d of %d premises vacant (%.0f%%)", block.vacantPremises, block.totalPremises, block.vacancyRatePct)),
+            ScoreComponent(kind: .density, nominalWeight: densityWeight,
+                           appliedWeight: applied(densityWeight), value: densityValue,
+                           detail: String(format: "%d active businesses, against %.0f for the busiest 5%% of blocks.",
+                                          block.activeEstablishments, densityReference),
+                           short: "\(block.activeEstablishments) active businesses vs \(Int(densityReference.rounded())) at the busiest blocks")
+        ]
 
-        // Density component (0-100): normalized against the busiest block currently loaded.
-        let densityScore: Double = maxActiveEstablishments > 0
-            ? (Double(block.activeEstablishments) / Double(maxActiveEstablishments)) * 100
-            : 0
-
-        let weighted = (footfallScore * 0.4) + (vacancyScore * 0.4) + (densityScore * 0.2)
-        let rounded = Int(weighted.rounded())
-        return OpportunityScore(value: rounded, tier: .forScore(rounded))
+        let rounded = Int(components.map(\.contribution).reduce(0, +).rounded())
+        return OpportunityScore(value: rounded, tier: .forScore(rounded), components: components)
     }
 }

@@ -19,7 +19,7 @@ struct GuideDetailCard: View {
                     .foregroundStyle(bucket.accent)
                 Text(bucket.documentTitle)
                     .font(AppFont.nav(15, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(AppColor.textPrimary)
                 Spacer()
             }
 
@@ -40,7 +40,7 @@ struct GuideDetailCard: View {
         }
         .padding(18)
         .frame(maxWidth: 440, alignment: .leading)
-        .background(.white.opacity(0.05))
+        .background(AppColor.textPrimary.opacity(0.05))
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .stroke(bucket.accent.opacity(0.4), lineWidth: 1)

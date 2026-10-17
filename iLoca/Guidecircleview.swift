@@ -23,7 +23,7 @@ struct GuideCircleView: View {
             Text(bucket.title.uppercased())
                 .font(AppFont.mono(12, weight: .semibold))
                 .tracking(1.0)
-                .foregroundStyle(isSelected ? .white : AppColor.mutedGrey)
+                .foregroundStyle(isSelected ? AppColor.textPrimary : AppColor.mutedGrey)
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.75), value: isSelected)
         .contentShape(Rectangle())
