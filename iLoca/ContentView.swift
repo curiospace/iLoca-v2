@@ -76,8 +76,8 @@ struct ContentView: View {
                 ForEach(store.sensors) { sensor in
                     if let ff = CityDataStore.footfall(sensor: sensor, hours: filters.selectedHours, dayTypes: filters.dayTypes) {
                         MapCircle(center: sensor.coordinate, radius: footfallRadius(ff))
-                            .foregroundStyle(AppColor.tealAccent.opacity(0.25))
-                            .stroke(AppColor.tealAccent.opacity(0.8), lineWidth: 1)
+                            .foregroundStyle(AppColor.footfallPurple.opacity(0.25))
+                            .stroke(AppColor.footfallPurple.opacity(0.8), lineWidth: 1)
                     }
                 }
             }
@@ -256,6 +256,26 @@ struct ContentView: View {
     @ViewBuilder
     private var mapLegend: some View {
         VStack(alignment: .leading, spacing: 8) {
+            if filters.showFootfallZones || filters.showVacancyZones
+                || (filters.showCompetitorMarkers && store.selectedBlock != nil) {
+                HStack(spacing: 12) {
+                    if filters.showCompetitorMarkers && store.selectedBlock != nil {
+                        legendRing(AppColor.scoreGood, "Number = rivals in that block")
+                    }
+                    if filters.showFootfallZones {
+                        legendRing(AppColor.footfallPurple, "Foot traffic (bigger = busier)")
+                    }
+                    if filters.showVacancyZones {
+                        legendRing(AppColor.scorePoor, "High vacancy")
+                        legendRing(AppColor.scoreModerate, "Some")
+                        legendRing(AppColor.scoreExcellent, "Low")
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(AppColor.panelSurface.opacity(0.9))
+                .clipShape(Capsule())
+            }
             if filters.showOnStreetParking || filters.showCarParks {
                 HStack(spacing: 12) {
                     if filters.showCarParks {
@@ -301,7 +321,17 @@ struct ContentView: View {
         HStack(spacing: 5) {
             Circle().fill(color).frame(width: 8, height: 8)
             Text(label).font(AppFont.nav(11)).foregroundStyle(AppColor.textPrimary.opacity(0.85))
-        }
+        } }
+    
+        
+        private func legendRing(_ color: Color, _ label: String) -> some View {
+            HStack(spacing: 5) {
+                Circle().fill(color.opacity(0.3))
+                    .overlay(Circle().stroke(color, lineWidth: 1))
+                    .frame(width: 12, height: 12)
+                Text(label).font(AppFont.nav(11)).foregroundStyle(AppColor.textPrimary.opacity(0.85))
+            }
+        
     }
 
     @ViewBuilder

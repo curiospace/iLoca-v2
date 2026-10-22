@@ -54,6 +54,7 @@ enum AppColor {
 
     // UI accents
     static let tealAccent = Color(light: 0x16946E, dark: 0x4ECCA3)
+    static let footfallPurple = Color(light: 0x6A4FC8, dark: 0x9B87F5)
     static let mutedGrey = Color(light: 0x5C6878, dark: 0x8E9BAE)
 
     // Text
